@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>🧠 AI Portfolio Terminal</title>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono&display=swap" rel="stylesheet">
+  <style>
+    body {
+      background-color: #0d0d0d;
+      color: #b2f5ea;
+      font-family: 'JetBrains Mono', monospace;
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: flex-start;
+      min-height: 100vh;
+    }
+
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+      color: #63f7ff;
+      text-shadow: 0 0 8px #63f7ff88;
+    }
+
+    .section-title {
+      color: #00ffcc;
+      margin-top: 2.5rem;
+      margin-bottom: 0.5rem;
+      font-weight: bold;
+      font-size: 1.2rem;
+      text-transform: uppercase;
+      border-bottom: 1px solid #00ffcc44;
+      padding-bottom: 0.2rem;
+    }
+
+
+    .module {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      max-width: 600px;
+      padding: 0.6rem 1rem;
+      border: 1px solid #333;
+      border-radius: 8px;
+      margin: 0.4rem 0;
+      background-color: #1a1a1a;
+      transition: all 0.2s ease;
+    }
+
+    .module:hover,
+    .module-final:hover {
+      background-color: #222;
+      transform: translateY(-2px);
+      box-shadow: 0 0 8px #00ffcc33;
+    }
+
+    .module a,
+    .module-final a {
+      color: #b2f5ea;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .module a:hover {
+      color: #ffffff;
+    }
+
+    .module-final {
+      display: flex;
+      flex-direction:column;
+      justify-content: space-between;
+      align-items: left;
+      width: 100%;
+      max-width: 600px;
+      padding: 0.6rem 1rem;
+      border: 1px solid #333;
+      border-radius: 8px;
+      margin: 0.4rem 0;
+      background-color: #1a1a1a;
+      transition: all 0.2s ease;
+    }
+
+    .module-final div {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .module-final p {
+      margin:0;
+      padding: .5rem;
+      color:#ffffff
+    }
+
+    ul {
+      padding-left: 1.2rem;
+      margin: 0.2rem 0;
+    }
+
+    .navigator-informer {
+        position:fixed;
+        right: 2%;
+        top: 5%;
+        width: 30%;
+        border-radius: 10px;
+        box-shadow: 0 0 8px #00ffcc33;
+        background:linear-gradient(to bottom left, black, rgb(23, 23, 23), rgb(61, 61, 61))
+    }
+
+    .access-section-title {
+      color: #00ffcc;
+      padding-bottom: 1rem;
+      font-weight: bold;
+      font-size: 1.2rem;
+      text-transform: uppercase;
+      border-bottom: 1px solid #00ffcc44;
+      padding-bottom: .5rem;
+      margin-top: 1rem;
+      padding-left: 1rem;
+      display: flex;
+      align-items:center;
+      justify-content:space-between
+    }
+
+    .access-section-title div {
+        padding-right: 1rem;
+        cursor:pointer
+    }
+
+    .access-section-title h3 {
+        margin: 0;
+        display:flex;
+        align-items:center
+    }
+
+    h3 .i {
+        text-transform:lowercase;
+        font-size: .9rem;
+        margin-left: 1rem;
+        text-align:center;
+        color: #666
+    }
+
+    
+
+
+
+
+    .log {
+      color: #ffffff;
+      font-size: 0.90rem;
+      margin-top: 0.5rem;
+      padding-left: 1rem;
+      margin-bottom: 1rem;
+
+
+    }
+
+    #trust {
+      font-weight: bold;
+    }
+
+    .unknown {
+      color: yellow;
+    }
+
+    .bot {
+      color: red;
+    }
+
+    .ok {
+      color: lime;
+    }
+
+    @media screen and (max-width: 800px) {
+      .navigator-informer {
+        top: 0;
+        left: 0;
+        border-radius: 1px;
+        width: 100%;
+        display: flex;
+        flex-direction:row;
+        justify-content:space-around;
+        align-items:center
+      }
+      .i {
+        display: none
+      }
+      .access-section-title div {
+        display: none;
+
+      }
+
+      .access-section-title {
+        width: 20%;
+        font-size: 2.5vw;
+        border-bottom:none
+      }
+      .log {
+        width: 40%;
+        font-size: 1.7vw;
+        margin:.5rem;
+      }
+
+      .system-h1 {
+        margin-top: 6rem
+      }
+
+      .access-section-title h3 {
+        font-size: 2.5vw
+      }
+    }
+
+    
+  </style>
+</head>
+<body>
+  <h1 class="system-h1">🧠 SYSTEM ACCESS GRANTED</h1>
+
+  <p>> Welcome.<br>
+  Initializing AI Portfolio...</p>
+
+  <div class="section-title">Modules</div>
+
+  <div class="module">
+    <a href="/projects/01_scrollTrap/">[01] Scroll Trap</a>
+    <span>[status: ARMED]</span>
+  </div>
+
+  <div class="module">
+    <a href="/projects/02_clickTrap/">[02] Click Snare</a>
+    <span>[status: MONITORING]</span>
+  </div>
+
+  <div class="module">
+    <a href="/projects/03_canvasTrap/">[03] Fingerprint Shield</a>
+    <span>[status: ACTIVE]</span>
+  </div>
+
+  <div class="module">
+    <a href="/projects/04_obfuscation/">[04] Obfuscation Demo</a>
+    <span>[status: DYNAMIC]</span>
+  </div>
+
+  
+
+  
+
+  <div class="section-title">Hints</div>
+  <ul>
+    <li>🧪 This site monitors input behavior</li>
+    <li>🤖 Bots are not welcome here</li>
+    <li>🔍 Open your console... if you dare</li>
+  </ul>
+
+  <div class="navigator-informer">
+    <div class="access-section-title">
+        <h3>Access Data</h3>
+    </div>
+    <div class="log" id="access-log">
+    - IP: <span id="ip">[Fetching]</span><br>
+    - User-Agent: <span id="ua"></span><br>
+    - Trust Level: <span id="trust" class="unknown">[Analyzing]</span>
+    </div>
+    
+  </div>
+
+  <script>
+    // Inject info
+    document.getElementById("ua").textContent = navigator.userAgent;
+
+    // Fake IP logic
+    document.getElementById("ip").textContent = 
+      "192.168." + Math.floor(Math.random()*256) + "." + Math.floor(Math.random()*256);
+
+    // Trust logic
+    const trustLevel = navigator.webdriver ? 'BOT DETECTED' : 'UNKNOWN';
+    const trustEl = document.getElementById("trust");
+
+    trustEl.textContent = trustLevel;
+    trustEl.className = trustLevel === 'BOT DETECTED' ? 'bot' : 'unknown';
+  </script>
+</body>
+</html>

@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Fingerprint Shield - Anti-Bot Module</title>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono&display=swap" rel="stylesheet">
+  <style>
+    body {
+      background-color: #0a0a0a;
+      color: #00ffcc;
+      font-family: 'JetBrains Mono', monospace;
+      margin: 0;
+      padding-top: 70px;
+    }
+
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      background-color: #111;
+      border-bottom: 1px solid #222;
+      z-index: 1000;
+      box-shadow: 0 0 10px #00ffcc44;
+    }
+
+    .status-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.8rem 1.5rem;
+      font-size: 0.95rem;
+      color: #b2f5ea;
+    }
+
+    .back-button {
+      text-decoration: none;
+      color: #00ffcc;
+      font-weight: bold;
+    }
+
+    .back-button:hover {
+      color: white;
+    }
+
+    .content {
+      padding: 4rem 2rem;
+      max-width: 800px;
+      margin: auto;
+    }
+
+    .module {
+      background: #121212;
+      border-radius: 12px;
+      padding: 2rem;
+      margin-top: 2rem;
+      border: 1px solid #222;
+      box-shadow: 0 0 8px #00ffcc22;
+    }
+
+    h1, h2 {
+      color: #63f7ff;
+    }
+
+    .trust {
+      font-weight: bold;
+    }
+
+    .good { color: lime; }
+    .warn { color: yellow; }
+    .bad  { color: red; }
+
+    .fp-data {
+      font-size: 0.9rem;
+      color: #b2f5ea;
+    }
+
+    canvas {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <div class="status-bar">
+      <div>Fingerprint Trust: <span id="trustScore" class="trust">[Evaluating]</span></div>
+      <a class="back-button" href="/mainframe/terminal.html">← Back to Terminal</a>
+
+    </div>
+  </nav>
+
+  <div class="content">
+    <h1>🧬 Fingerprint Shield Activated</h1>
+    <p>This module fingerprints your environment using canvas rendering and hardware hints.</p>
+
+    <div class="module">
+      <h2>> ENVIRONMENT SIGNATURE</h2>
+      <div class="fp-data" id="fpOutput">
+        [Calculating...]
+      </div>
+    </div>
+  </div>
+
+  <canvas id="fpCanvas" width="200" height="50"></canvas>
+
+  <script>
+    function getCanvasFingerprint() {
+      const canvas = document.getElementById('fpCanvas');
+      const ctx = canvas.getContext('2d');
+
+      ctx.textBaseline = 'top';
+      ctx.font = '16px JetBrains Mono';
+      ctx.fillStyle = '#f0f';
+      ctx.fillText('🧬 Fingerprint Me!', 2, 2);
+
+      const dataUrl = canvas.toDataURL();
+      let hash = 0;
+      for (let i = 0; i < dataUrl.length; i++) {
+        hash = (hash << 5) - hash + dataUrl.charCodeAt(i);
+        hash |= 0;
+      }
+
+      return hash.toString(16);
+    }
+
+    function getTrustScore(fpHash) {
+        if (navigator.webdriver)
+            return { score: 20, status: 'BOT-LIKE' };
+
+        if (!navigator.hardwareConcurrency || !navigator.maxTouchPoints)
+            return { score: 60, status: 'SUSPICIOUS' };
+
+        if (fpHash.length < 8)
+            return { score: 50, status: 'SUSPICIOUS' };
+
+        return { score: 70, status: 'TRUSTED' };
+    }
+
+    function showFingerprint() {
+      const fpHash = getCanvasFingerprint();
+      const screenSize = `${window.screen.width}x${window.screen.height}`;
+      const deviceMemory = navigator.deviceMemory || 'Unknown';
+      const touchSupport = navigator.maxTouchPoints || 0;
+      const cores = navigator.hardwareConcurrency || 'N/A';
+
+      const output = `
+      Canvas Hash: ${fpHash}
+      Screen Size: ${screenSize}
+      Cores: ${cores}
+      Memory: ${deviceMemory} GB
+      Touch Support: ${touchSupport}
+      Webdriver Flag: ${navigator.webdriver ? 'YES' : 'No'}
+      `;
+
+      document.getElementById('fpOutput').textContent = output.trim();
+
+      const trust = getTrustScore(fpHash);
+      const trustEl = document.getElementById('trustScore');
+      trustEl.textContent = trust.status;
+
+      trustEl.className = "trust " + (
+        trust.status === "BOT-LIKE" ? "bad" :
+        trust.status === "SUSPICIOUS" ? "warn" : "good"
+      );
+
+      console.log(`[FingerprintShield] Hash: ${fpHash} | Trust: ${trust.status}`);
+    }
+
+    showFingerprint();
+  </script>
+</body>
+</html>

@@ -1,0 +1,9 @@
+:root {
+    --primary: {
+        
+    }
+}
+
+body {
+    background-color:var(--primary)
+}

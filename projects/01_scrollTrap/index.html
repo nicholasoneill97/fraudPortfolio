@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Scroll Trap - Anti-Bot Module</title>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono&display=swap" rel="stylesheet">
+  <style>
+    body {
+      background-color: #0a0a0a;
+      color: #00ffcc;
+      font-family: 'JetBrains Mono', monospace;
+      margin: 0;
+    }
+
+    header {
+      background-color: #111;
+      margin-top:2rem;
+      padding: 4rem 2rem;
+      text-align: center;
+      border-bottom: 1px solid #333;
+    }
+
+    header h1 {
+      font-size: 2.2rem;
+      color: #63f7ff;
+      text-shadow: 0 0 6px #63f7ff88;
+      margin-bottom: 0.5rem;
+    }
+
+    header p {
+      font-size: 1rem;
+      color: #b2f5ea;
+    }
+
+    section {
+      padding: 4rem 2rem;
+      max-width: 800px;
+      margin: auto;
+    }
+
+    .status {
+      margin-top: 2rem;
+      padding: 1rem;
+      background: #111;
+      border: 1px solid #333;
+      border-radius: 8px;
+    }
+
+    .trust {
+      font-weight: bold;
+    }
+
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      background-color: #111;
+      border-bottom: 1px solid #222;
+      z-index: 1000;
+      box-shadow: 0 0 10px #00ffcc44;
+    }
+
+    .status-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.8rem 1.5rem;
+      font-size: 0.95rem;
+      color: #b2f5ea;
+    }
+
+    .status-metrics {
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .back-button {
+      text-decoration: none;
+      color: #00ffcc;
+      font-weight: bold;
+      transition: color 0.2s ease;
+    }
+
+    .back-button:hover {
+      color: #ffffff;
+    }
+
+    .good { color: lime; }
+    .warn { color: yellow; }
+    .bad  { color: red; }
+
+    .module {
+      margin-top: 1rem;
+      padding: 3rem;
+      background: #121212;
+      border-radius: 12px;
+      border: 1px solid #222;
+      box-shadow: 0 0 12px #00ffcc22;
+    }
+
+    .data-info-module {
+      margin-top: 6rem;
+      padding: 3rem;
+      background: #121212;
+      border-radius: 12px;
+      border: 1px solid #222;
+      box-shadow: 0 0 12px #00ffcc22;
+    }
+
+    .module h2,
+    .data-info-module h2 {
+      color: #00f0ff;
+    }
+
+    .spacer {
+      height: 600px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 3rem;
+      font-size: 0.8rem;
+      color: #666;
+    }
+
+    
+
+    #dataFeed {
+      background: #121212;
+      height: 400px;
+      overflow-y:scroll;
+      display: flex;
+      flex-direction:column;
+      align-items:center;
+      position:relative;
+      padding:4rem;
+      box-shadow:0 0 40px 10px #28c7c71b;
+      z-index:100;
+      margin-top: 2rem;
+      border-bottom-left-radius: 30px;
+      border-top-left-radius: 30px;
+      border-bottom-right-radius: 20px;
+      border-top-right-radius: 20px
+
+    }
+
+    #dataFeed::-webkit-scrollbar {
+      background-color:#11111123;
+      border-top-right-radius: 30px;
+    }
+    #dataFeed::-webkit-scrollbar-thumb {
+      background-color: black;
+      border-top-right-radius: 30px;
+      border-bottom-right-radius: 30px;
+
+    }
+
+    #dataFeed h3 {
+      position:absolute;
+      top: 0;
+      width: 80%;
+      display: flex;
+      justify-content:center;
+      align-items:center;
+      border-bottom: 1px solid #333;
+      padding-bottom: 1rem
+    }
+
+    @keyframes logFade {
+      0% {  
+        opacity: 0;
+        scale: 0
+      }
+      50% {
+        scale: 1.1
+      }
+      100% {
+        opacity: 1;
+        scale: 1;
+      }
+    }
+
+    .speed-log {
+      color:rgb(1, 203, 254);
+      z-index:200;
+      height: 100px;
+      margin-top: 1.4rem;
+      display: flex;
+      align-items:center;
+      justify-content:center;
+      text-align:center;
+      animation: logFade 2s;
+      transition:ease-in-out;
+      width: 90%;
+      padding: 1rem;
+      background:#111;
+      border-radius: 25px;
+      border: 2px solid
+    }
+  </style>
+</head>
+<body>
+    <nav>
+  <div class="status-bar">
+    <div class="status-metrics">
+      Speed: <span id="scrollSpeed">0</span> |
+      Mouse: <span id="mouseStatus">No</span> |
+      Trust: <span id="trustScore" class="trust">[Evaluating]</span>
+    </div>
+    <a class="back-button" href="/mainframe/terminal.html">← Back to Terminal</a>
+  </div>
+</nav>
+
+  <header>
+    <h1>🧠 Scroll Trap Activated</h1>
+    <p>This page monitors scroll behavior to detect automation or unnatural input patterns.</p>
+  </header>
+
+  <section>
+    
+
+    <div class="module">
+      <h2>> ABOUT THIS MODULE</h2>
+      <p>
+        This module observes real-time scroll behavior, including scroll velocity, jitter, and interaction timing.
+        Abnormally fast or robotic scrolling patterns, especially without mouse movement, are flagged as suspicious.
+        This detection strategy is commonly used to catch bots scraping or auto-scrolling content.
+      </p>
+    </div>
+
+    <div class="data-info-module">
+      <h2>> DATA FEED SIMULATION</h2>
+      <p>
+        Below is a simulated feed of internal logs and anomalies detected by the system. Scroll naturally to explore
+        how interaction affects your trust level.
+      </p>
+    </div>
+
+    <div id="dataFeed">
+      <h3>DATA</h3> 
+    </div>
+    
+  </section>
+
+  <footer>
+    &copy; 2025 Nicholas O'Neill – Scroll Trap Demo
+  </footer>
+
+  <script>
+
+    let scrollSpeeds = [];
+    let lastScrollY = window.scrollY;
+    let lastTime = Date.now();
+    let mouseMoved = false;
+    let lastAvgSpeed = 0
+
+    // Scroll speed tracking
+    window.addEventListener('scroll', () => {
+      const now = Date.now();
+      const dy = Math.abs(window.scrollY - lastScrollY);
+      console.log(dy + ' Y-level')
+      const dt = now - lastTime;
+      if (dt > 0) {
+        const speed = dy / dt;
+        scrollSpeeds.push(speed);
+        if (scrollSpeeds.length > 10) scrollSpeeds.shift();
+      }
+      lastScrollY = window.scrollY;
+      lastTime = now;
+      
+    });
+
+    // Mouse movement tracking
+    window.addEventListener('mousemove', () => {
+      mouseMoved = true;
+      document.getElementById("mouseStatus").textContent = "Yes";
+    });
+
+    // Trust score logic
+    setInterval(() => {
+      const avgSpeed = scrollSpeeds.length
+        ? scrollSpeeds.reduce((a, b) => a + b, 0) / scrollSpeeds.length
+        : 0;
+
+      document.getElementById("scrollSpeed").textContent = avgSpeed.toFixed(4);
+
+      let score = 100;
+
+      if (!mouseMoved) score -= 30;
+      if (avgSpeed > 1.0) score -= 40;
+      else if (avgSpeed > 0.5) score -= 15;
+
+      const trustEl = document.getElementById("trustScore");
+
+      if (score >= 75) {
+        trustEl.textContent = "TRUSTED";
+        trustEl.className = "trust good";
+        const trustLog = document.createElement('div');
+        trustLog.className = 'trust-log';
+        trustLog.innerHTML = 'This Can Be Trusted';
+      } else if (score >= 45) {
+        trustEl.textContent = "SUSPICIOUS";
+        trustEl.className = "trust warn";
+        const trustLog = document.createElement('div');
+        trustLog.className = 'trust-log';
+        trustLog.innerHTML = 'This Might Not Be Trusted';
+      } else {
+        trustEl.textContent = "BOT-LIKE";
+        trustEl.className = "trust bad";
+        const trustLog = document.createElement('div');
+        trustLog.className = 'trust-log';
+        trustLog.innerHTML = 'This Definitely Cannot Be Trusted';
+      }
+
+
+      console.log(`[ScrollTrap] Score: ${score} | Speed: ${avgSpeed.toFixed(4)} | MouseMoved: ${mouseMoved}`);
+      if (avgSpeed === 0 || avgSpeed === lastAvgSpeed) {
+        return
+      } else {
+      const speedLog = document.createElement('div');
+      speedLog.className = 'speed-log';
+      if (avgSpeed > 4) {
+        speedLog.innerHTML = `${avgSpeed.toFixed(3)} was the speed at ${new Date().toLocaleString()}`;
+      } 
+      if (avgSpeed > 1) {
+        speedLog.innerHTML = `${avgSpeed.toFixed(3)} was the speed at ${new Date().toLocaleString()}`;
+      } else {
+        speedLog.innerHTML = `${avgSpeed.toFixed(3)} was the speed at ${new Date().toLocaleString()}`;
+      }
+
+      document.getElementById('dataFeed').prepend(speedLog);
+      }
+      lastAvgSpeed = avgSpeed
+    }, 2000);
+
+
+  </script>
+</body>
+</html>
